@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 import * as cheerio from 'cheerio';
 import dateMaker from './dateMaker.js'
 import cookies from './cookies.js';
+import { exec } from 'child_process';
 
 (async () => {
   // Launch the browser and open a new blank page
@@ -17,7 +18,7 @@ import cookies from './cookies.js';
   console.log(`새 페이지를 엶`);
   
   // Navigate the page to a URL
-  const targetUrl = 'https://x.com/explore/tabs/trending';
+  const targetUrl = 'https://x.com/explore/tabs/news';
   await page.goto(targetUrl);
   console.log(`${targetUrl}로 이동함`);
   
@@ -57,7 +58,21 @@ import cookies from './cookies.js';
     listCount++;
   }
   console.log('------------------------------------');
+  // 1위 키워드만 추출
+  const topKeyword = elementWithId.first().find('span').text();
 
+  // 실행 (searchBing.js로 전달)
+  exec(`node searchBing.js "${topKeyword}"`, (error, stdout, stderr) => {
+    if (error) {
+      console.error("실행 중 오류 발생: ${error.message}");
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(stdout);
+  });
   // delay 30 secs
   /* console.log(`30초를 기다리는 중..`);
   await new Promise(resolve => setTimeout(resolve, 30000)); */
