@@ -10,8 +10,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "cheerio": "^1.1.0",
+    "cheerio": "^1.1.2",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
     "open": "^10.2.0",
-    "puppeteer": "^24.12.1"
+    "puppeteer": "^24.17.0",
+    "xml2js": "^0.6.2"
   }
 }
